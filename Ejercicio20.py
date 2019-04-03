@@ -5,9 +5,11 @@ n = int(input('Introduce un numero: '))
 
 for i in range(n):
     sueldo = int(input('Ingrese el sueldo: '))
-    var + i = sueldo
+    compare = sueldo
 
-    if sueldo > var + i:
+    if sueldo > compare:
         result = sueldo
     else:
-        result = var + i
+        result = compare
+
+print(result)
