@@ -1,4 +1,4 @@
-# Crear una funcion que calcule el maximo divisor en comun entre 2 numeros
+# Crear una funcion que calcule el maximo comun divisor entre 2 numeros
 
 def divNumGet(num1, num2):
     maxNum = 0
