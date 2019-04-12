@@ -11,8 +11,19 @@ def numAmigos(num1, num2):
         if num2 % j == 0:
             totalNum2 += j
     if totalNum1 == num2 and totalNum2 == num1:
-        print('Los numeros {} y {}, son amigos'.format(num1, num2))
+        #print('Los numeros {} y {}, son amigos'.format(num1, num2))
+        return True
     else:
-        print('Los numeros {} y {}, no son amigos'.format(num1, num2))
+        #print('Los numeros {} y {}, no son amigos'.format(num1, num2))
+        return False
 
-numAmigos(284, 220)
+#numAmigos(496, 496)
+
+def allNumsAmigos():
+    for i in range(1, 1300):
+        for j in range(i+1, 1300):
+            if i != j:
+                if numAmigos(i, j):
+                    print(i, j, 'Son amigos')
+
+allNumsAmigos()
