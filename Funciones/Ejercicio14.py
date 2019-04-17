@@ -6,6 +6,6 @@ def numToBinary(num):
         result += str(num % 2)
         #print(result, end='')
         num = num // 2
-    print(result)
+    print(result[::-1])
 
 numToBinary(208)
