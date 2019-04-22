@@ -23,3 +23,11 @@ print(spam)
 
 del spam[2]
 print(spam)
+
+print(spam.index('gato'))
+
+spam.append('conejo')
+spam.append(12)
+spam.insert(1, 'ardilla')
+spam.remove('gato')
+print(spam)
