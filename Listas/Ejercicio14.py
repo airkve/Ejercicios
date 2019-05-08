@@ -10,7 +10,7 @@ def loadNums():
 
 def getIndex(num):
     if num in nums:
-        print(nums.index(num))
+        print('El numero se encontro en la posicion', nums.index(num), 'de la lista')
     else:
         print('No se encontro el numero indicado.')
 
