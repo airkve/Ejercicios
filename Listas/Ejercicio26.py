@@ -8,77 +8,134 @@ board = [
     ['0', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0'],
-    ['0', '0', '0', 'T', '0', '0', '0', '0'],
+    ['0', '0', 'K', '0', '0', '0', '0', '0'],
+    ['C', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0'],
-    ['0', '0', '0', '0', '0', '', '0', '0'],
-    ['0', '0', '0', 'K', '0', '0', '0', '0']
+    ['0', '0', '0', '0', '0', '0', '0', '0']
 ]
 
 def getIndex(lst, char):
-    for lista in lst:
-        if char in lista:
-            return lst.index(lista)
+    x, y = 0, 0
+
+    for i in range(len(lst)):
+        if char in lst[i]:
+            x = lst[i].index(char)
+            y = i
+    return x, y
+
+#print(getIndex(board, 'K'))
 
 def checkMate(data):
     for i in range(8): # Forloop para recorrer las 8 listas
         for j in range(8): # Forloop para recorrer cada lista
 
             if data[i][j] == 'P': # Encuentra al Peon
-                # Chequea si diagonal al peon hay un rey 'K'
-                if data[i - 1][j - 1] == 'K' or data[i - 1][j + 1] == 'K':
-                    return True
-                elif data[i + 1][j - 1] == 'K' or data[i + 1][j + 1] == 'K':
+                peonX, peonY = j, i # guarda las coordenadas del peon
+                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
+
+                # Chequea si hay un rey 'K' en frente del peon
+                if peonY == reyY + 1 or peonY == reyY - 1:
+                    if peonX == reyX or peonX == reyX - 1 or peonX == reyX + 1:
+                        return True
+                    else:
+                        return False
+
+            if data[i][j] == 'T': # Encuentra a la Torre
+                torreX, torreY = j, i # guarda las coordenadas de la torre
+                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
+
+                if torreX == reyX or torreY == reyY:
                     return True
                 else:
                     return False
 
-            if data[i][j] == 'T': # Encuentra a la Torre
-                x, y = i, j # guarda las coordenadas de la torre
-                print(x, y)
-                print(data[i][y])
-                if 'K' in data[x]:
-                    print("Jaque mate!")
+            if data[i][j] == 'C': # Encuentra el Caballo
+                caballoX, caballoY = j, i # guarda las coordenadas de la torre
+                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
 
-                for k in data[i]:
-                    if k.index('K') == y
-                elif data[i][y] == 'K':
-                    print("Jaque mate!")
-                else:
-                    print('No hay jaque.')
+                if caballoY == reyY + 2 or caballoY == reyY - 2:
+                    if caballoX == reyX + 1 or caballoX == reyX - 1:
+                        return True
+                    else:
+                        return False
 
-            # if data[i][j] == 'C': # Encuentra el Caballo
-            #     x, y = i, j # guarda las coordenadas de la torre
-            #     if data[i - 1][j - 1] == 'K' or data[i - 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     elif data[i + 1][j - 1] == 'K' or data[i + 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     else:
-            #         print('No hay jaque.')
+                if caballoX == reyX + 2 or caballoX == reyX -2:
+                    if caballoY == reyY + 1 or caballoY == reyY - 1:
+                        return True
+                    else:
+                        return False
 
-            # if data[i][j] == 'A': # Encuentra al Alfil
-            #     if data[i - 1][j - 1] == 'K' or data[i - 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     elif data[i + 1][j - 1] == 'K' or data[i + 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     else:
-            #         print('No hay jaque.')
+            if data[i][j] == 'A': # Encuentra al Alfil
+                reinaX, reinaY = j, i # guarda las coordenadas del Alfil
+                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
+                jaque = False
 
-            # if data[i][j] == 'K':
-            #     if data[i - 1][j - 1] == 'K' or data[i - 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     elif data[i + 1][j - 1] == 'K' or data[i + 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     else:
-            #         print('No hay jaque.')
+                if reinaY == reyY + 1:
+                    if reinaX == reyX + 1 or reinaX == reyX - 1:
+                        jaque = True
+                elif reinaY == reyY + 2:
+                    if reinaX == reyX + 2 or reinaX == reyX - 2:
+                        jaque = True
+                elif reinaY == reyY + 3:
+                    if reinaX == reyX + 3 or reinaX == reyX - 3:
+                        jaque = True
+                elif reinaY == reyY + 4:
+                    if reinaX == reyX + 4 or reinaX == reyX - 4:
+                        jaque = True
+                elif reinaY == reyY - 1:
+                    if reinaX == reyX + 1 or reinaX == reyX - 1:
+                        jaque = True
+                elif reinaY == reyY - 2:
+                    if reinaX == reyX + 2 or reinaX == reyX - 2:
+                        jaque = True
+                elif reinaY == reyY - 3:
+                    if reinaX == reyX + 3 or reinaX == reyX - 3:
+                        jaque = True
+                elif reinaY == reyY - 4:
+                    if reinaX == reyX + 4 or reinaX == reyX - 4:
+                        jaque = True
 
-            # if data[i][j] == 'Q':
-            #     if data[i - 1][j - 1] == 'K' or data[i - 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     elif data[i + 1][j - 1] == 'K' or data[i + 1][j + 1] == 'K':
-            #         print("Jaque mate!")
-            #     else:
-            #         print('No hay jaque.')
+                return jaque
+                
 
-checkMate(board)
+            if data[i][j] == 'Q':
+                reinaX, reinaY = j, i # guarda las coordenadas de la Reina
+                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
+                jaque = False
+
+                if reinaY == reyY + 1:
+                    if reinaX == reyX + 1 or reinaX == reyX - 1:
+                        jaque = True
+                elif reinaY == reyY + 2:
+                    if reinaX == reyX + 2 or reinaX == reyX - 2:
+                        jaque = True
+                elif reinaY == reyY + 3:
+                    if reinaX == reyX + 3 or reinaX == reyX - 3:
+                        jaque = True
+                elif reinaY == reyY + 4:
+                    if reinaX == reyX + 4 or reinaX == reyX - 4:
+                        jaque = True
+                elif reinaY == reyY - 1:
+                    if reinaX == reyX + 1 or reinaX == reyX - 1:
+                        jaque = True
+                elif reinaY == reyY - 2:
+                    if reinaX == reyX + 2 or reinaX == reyX - 2:
+                        jaque = True
+                elif reinaY == reyY - 3:
+                    if reinaX == reyX + 3 or reinaX == reyX - 3:
+                        jaque = True
+                elif reinaY == reyY - 4:
+                    if reinaX == reyX + 4 or reinaX == reyX - 4:
+                        jaque = True
+                
+                if reinaX == reyX or reinaY == reyY:
+                    jaque = True
+
+                return jaque
+                
+
+
+print(checkMate(board))
+
                 
                 
