@@ -47,6 +47,22 @@ def jaqueMate(data):
     elif posK[0] + 1 == posP[0] or posk[0] - 1 == posP[0]:
         if posK[1] + 2 == posP[1] or posK[1] - 2 == posP[1]:
             return True
+
+    # Chequea la posicion del alfil respecto al rey
+    if 8 - posk[0] <= 4:
+        for i in range(posK[0], 8):
+            for j in range(posk[1], 8):
+                if posK[0] + i == posA[0]:
+                    if posk[1] + j == posA[1] or posk[1] - j == posA[1]:
+                        return True
+    else:
+        for i in range(posK[0]):
+            for j in range(posk[1]):
+                if posK[0] + i == posA[0]:
+                    if posk[1] + j == posA[1] or posk[1] - j == posA[1]:
+                        return True
+
+print(jaqueMate(board))
     
 
 def checkMate(data):
