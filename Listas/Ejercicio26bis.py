@@ -6,12 +6,12 @@
 board = [
     ['0', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0'],
+    ['A', '0', 'T', '0', '0', '0', '0', '0'],
+    ['0', '0', '0', '0', 'P', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0'],
-    ['0', '0', '0', '0', '0', '0', '0', '0'],
-    ['0', '0', 'K', '0', '0', '0', '0', '0'],
     ['C', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0'],
-    ['0', '0', '0', '0', '0', '0', '0', '0']
+    ['0', 'K', '0', '0', '0', '0', '0', '0']
 ]
 
 def getIndex(lst, char):
@@ -21,164 +21,96 @@ def getIndex(lst, char):
         if char in lst[i]:
             x = lst[i].index(char)
             y = i
-    return x, y
+    return [x, y]
 
-def jaqueMate(data):
-    posK = list(getIndex(board, 'K'))
-    posP = list(getIndex(board, 'P'))
-    posT = list(getIndex(board, 'T'))
-    posC = list(getIndex(board, 'C'))
-    posA = list(getIndex(board, 'A'))
-    posQ = list(getIndex(board, 'Q'))
-
-    # Chequea la posicion del peon respecto al rey
-    if posK[0] + 1 == posP[0] or posk[0] - 1 == posP[0]:
-        if posK[1] + 1 == posP[1] or posK[1] - 1 == posP[1]:
+def peon(king):
+    posC = getIndex(board, 'P')
+    posC.append([posC[0] + 1, posC[1] + 1])
+    posC.append([posC[0] + 1, posC[1] - 1])
+    posC.append([posC[0] - 1, posC[1] + 1])
+    posC.append([posC[0] - 1, posC[1] - 1])
+    print(posC)
+    for pos in posC:
+        print(pos)
+        if king == pos:
             return True
 
+def torre(king):
+    posT = getIndex(board, 'T')
+    if king[0] == posT[0] or king[1] == posT[1]:
+        return True
+    
+def caballo(king):
+    posC = getIndex(board, 'C')
+    posC.append([posC[0] + 2, posC[1] + 1])
+    posC.append([posC[0] + 2, posC[1] - 1])
+    posC.append([posC[0] - 2, posC[1] + 1])
+    posC.append([posC[0] - 2, posC[1] - 1])
+    posC.append([posC[0] + 1, posC[1] + 2])
+    posC.append([posC[0] + 1, posC[1] - 2])
+    posC.append([posC[0] - 1, posC[1] + 2])
+    posC.append([posC[0] - 1, posC[1] - 2])
+
+    for pos in posC:
+        if king == pos:
+            return True
+
+def alfil(king):
+    posA = getIndex(board, 'A')
+    alfilXmax = 8 - posA[0]
+    alfilYmax = 8 - posA[1]
+    alfilXless = 8 - posA[0]
+    alfilYless = 8 - posA[1]
+    posA.append([posA[0] + y for in range(1, 8), posA[1])
+    
+print(caballo(getIndex(board, 'K')))
+
+
+def jaqueMate(data):
+    posK = getIndex(board, 'K')
+    posC = getIndex(board, 'P')
+    posT = getIndex(board, 'T')
+    posC = getIndex(board, 'C')
+    posA = getIndex(board, 'A')
+    posQ = getIndex(board, 'Q')
+
+    # Chequea la posicion del peon respecto al rey
+    if posK == [posC[0] + 1, posC[1] + 1]:
+        return True
+    elif posK == [posC[0] + 1, posC[1] - 1]:
+        return True
+    elif posK == [posC[0] - 1, posC[1] + 1]:
+        return True
+    elif posK == [posC[0] - 1, posC[1] - 1]:
+        return True
+    # else:
+    #     return False
+
     # Chequea la posicion de la torre respecto al rey
-    if posK[0] == posP[0] or posk[1] == posP[1]:
+    if posK[0] == posT[0] or posK[1] == posT[1]:
+        print('jaque con la torre')
         return True
 
     # Chequea la posicion del caballo respecto al rey
-    if posK[0] + 2 == posP[0] or posk[0] - 2 == posP[0]:
-        if posK[1] + 1 == posP[1] or posK[1] - 1 == posP[1]:
+    if posK[0] + 2 == posC[0] or posK[0] - 2 == posC[0]:
+        if posK[1] + 1 == posC[1] or posK[1] - 1 == posC[1]:
             return True
-    elif posK[0] + 1 == posP[0] or posk[0] - 1 == posP[0]:
-        if posK[1] + 2 == posP[1] or posK[1] - 2 == posP[1]:
+    elif posK[0] + 1 == posC[0] or posK[0] - 1 == posC[0]:
+        if posK[1] + 2 == posC[1] or posK[1] - 2 == posC[1]:
             return True
 
     # Chequea la posicion del alfil respecto al rey
-    if 8 - posk[0] <= 4:
+    if 8 - posK[0] <= 4: # Calcula el lado mas grande para ubicarse
         for i in range(posK[0], 8):
-            for j in range(posk[1], 8):
+            for j in range(posK[1], 8):
                 if posK[0] + i == posA[0]:
-                    if posk[1] + j == posA[1] or posk[1] - j == posA[1]:
+                    if posK[1] + j == posA[1] or posK[1] - j == posA[1]:
                         return True
     else:
         for i in range(posK[0]):
-            for j in range(posk[1]):
+            for j in range(posK[1]):
                 if posK[0] + i == posA[0]:
-                    if posk[1] + j == posA[1] or posk[1] - j == posA[1]:
+                    if posK[1] + j == posA[1] or posK[1] - j == posA[1]:
                         return True
 
 print(jaqueMate(board))
-    
-
-def checkMate(data):
-    jaqueP = False
-    jaqueT = False
-    jaqueC = False
-    jaqueA = False
-    jaqueQ = False
-
-    for i in range(8): # Forloop para recorrer las 8 sub-listas
-        for j in range(8): # Forloop para recorrer cada sub-lista
-
-            if data[i][j] == 'P': # Encuentra al peon
-                peonX, peonY = j, i # guarda las coordenadas del peon
-                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
-
-                # Chequea si hay un rey 'K' en frente del peon
-                if peonY == reyY + 1 or peonY == reyY - 1:
-                    if peonX == reyX or peonX == reyX - 1 or peonX == reyX + 1:
-                        return True
-                    else:
-                        return False
-
-            if data[i][j] == 'T': # Encuentra a la torre
-                torreX, torreY = j, i # guarda las coordenadas de la torre
-                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
-
-                if torreX == reyX or torreY == reyY:
-                    return True
-                else:
-                    return False
-
-            if data[i][j] == 'C': # Encuentra el caballo
-                caballoX, caballoY = j, i # guarda las coordenadas del caballo
-                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
-
-                if caballoY == reyY + 2 or caballoY == reyY - 2:
-                    if caballoX == reyX + 1 or caballoX == reyX - 1:
-                        return True
-                    else:
-                        return False
-
-                if caballoX == reyX + 2 or caballoX == reyX -2:
-                    if caballoY == reyY + 1 or caballoY == reyY - 1:
-                        return True
-                    else:
-                        return False
-
-            if data[i][j] == 'A': # Encuentra al Alfil
-                reinaX, reinaY = j, i # guarda las coordenadas del Alfil
-                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
-                jaque = False
-
-                if reinaY == reyY + 1:
-                    if reinaX == reyX + 1 or reinaX == reyX - 1:
-                        jaque = True
-                elif reinaY == reyY + 2:
-                    if reinaX == reyX + 2 or reinaX == reyX - 2:
-                        jaque = True
-                elif reinaY == reyY + 3:
-                    if reinaX == reyX + 3 or reinaX == reyX - 3:
-                        jaque = True
-                elif reinaY == reyY + 4:
-                    if reinaX == reyX + 4 or reinaX == reyX - 4:
-                        jaque = True
-                elif reinaY == reyY - 1:
-                    if reinaX == reyX + 1 or reinaX == reyX - 1:
-                        jaque = True
-                elif reinaY == reyY - 2:
-                    if reinaX == reyX + 2 or reinaX == reyX - 2:
-                        jaque = True
-                elif reinaY == reyY - 3:
-                    if reinaX == reyX + 3 or reinaX == reyX - 3:
-                        jaque = True
-                elif reinaY == reyY - 4:
-                    if reinaX == reyX + 4 or reinaX == reyX - 4:
-                        jaque = True
-
-                return jaque
-                
-
-            if data[i][j] == 'Q':
-                reinaX, reinaY = j, i # guarda las coordenadas de la Reina
-                reyX, reyY = getIndex(board, 'K') # guarda las coordenadas del rey
-                jaque = False
-
-                if reinaY == reyY + 1:
-                    if reinaX == reyX + 1 or reinaX == reyX - 1:
-                        jaque = True
-                elif reinaY == reyY + 2:
-                    if reinaX == reyX + 2 or reinaX == reyX - 2:
-                        jaque = True
-                elif reinaY == reyY + 3:
-                    if reinaX == reyX + 3 or reinaX == reyX - 3:
-                        jaque = True
-                elif reinaY == reyY + 4:
-                    if reinaX == reyX + 4 or reinaX == reyX - 4:
-                        jaque = True
-                elif reinaY == reyY - 1:
-                    if reinaX == reyX + 1 or reinaX == reyX - 1:
-                        jaque = True
-                elif reinaY == reyY - 2:
-                    if reinaX == reyX + 2 or reinaX == reyX - 2:
-                        jaque = True
-                elif reinaY == reyY - 3:
-                    if reinaX == reyX + 3 or reinaX == reyX - 3:
-                        jaque = True
-                elif reinaY == reyY - 4:
-                    if reinaX == reyX + 4 or reinaX == reyX - 4:
-                        jaque = True
-                
-                if reinaX == reyX or reinaY == reyY:
-                    jaque = True
-
-                return jaque
-                
-
-
-print(checkMate(board))
