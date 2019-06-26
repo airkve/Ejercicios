@@ -32,13 +32,20 @@ provincias = {
 encabezado = "Parcial No. {}\n\nNombre y apellido:\n"
 
 def quizGenerator(cantidad):
-    provLst = list(provincias.keys())
-    random.shuffle(provLst)
-    respLst = list(provincias.values())
+    lista_provincias = list(provincias.keys())
+    #random.shuffle(lista_provincias)
+    lista_capitales = list(x for x in provincias[x])
     correctas = []
     erroneas = []
-    for prov in provLst:
+    seleccion_simple = []
+    for prov in lista_provincias:
         correctas.append(provincias[prov])
     
     for i in range(7):
+        # Abre o crea el archivo del parcial
         archivo = open('ExamenParcial{}.txt'.format(i + 1), 'w')
+        # Crea la pregunta y las respuestas
+        random.shuffle(lista_provincias)
+        pregunta = '¿Cual es la capital de', lista_provincias[i], '?'
+        seleccion_simple.append(lista_provincias[i])
+        seleccion_simple.append(corre)
