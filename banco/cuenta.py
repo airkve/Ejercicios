@@ -29,4 +29,10 @@ class Cuenta():
         self.balance -= monto
         print(f'{self.fecha:B% d% Y%}')
         print(f'Estas debitando {monto:.2f} desde {banco}')
-        print(f'Tu saldo restante es de: {self.balance:.2f}')
+        print(f'Tu saldo actual es de: {self.balance:.2f}')
+
+    def credito(self, monto):
+        self.balance += monto
+        print(f'{self.fecha:B% d% Y%}')
+        print(f'Acreditaste la cantidad de {monto:.2f}')
+        print(f'Tu saldo actual es de: {self.balance:.2f}')
